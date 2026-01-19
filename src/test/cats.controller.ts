@@ -1,41 +1,50 @@
 
-// import { Controller, Get, Query, Post, Body, Put, Param, Delete, Res, HttpStatus } from '@nestjs/common';
-// import { CreateCatDto, UpdateCatDto, ListAllEntities } from './dto';
+import { Controller, Get, Query, Post, Body, Put, Param, Delete, Res, HttpStatus, HttpCode } from '@nestjs/common';
+import { CreateCatDto } from './create.cat.dto';
+import type { Response } from 'express';
+import { CatService } from 'src/providers/cat.service';
+import { Cat } from 'src/providers/cat.interface';
+import { Roles } from 'src/authorization/roles.decorator';
+import { Role } from 'src/authorization/role.enum';
 
-// @Controller('cats')
-// export class CatsController {
-//     @Post()
-//     create(@Body() createCatDto: CreateCatDto) {
-//         return 'This action adds a new cat';
-//     }
+@Controller('cats')
+export class CatsController {
+    constructor(private readonly catService:CatService){}
 
-//     @Get()
-//     findAll(@Query() query: ListAllEntities) {
-//         return `This action returns all cats (limit: ${query.limit} items)`;
-//     }
+    @Post()
+    // @Roles(Role.Admin)
+    async create(@Body() createCatDto: CreateCatDto) {
+        this.catService.create(createCatDto);
+        return 'cat created successfully';
+    }
 
-//     @Get(':id')
-//     findOne(@Param('id') id: string) {
-//         return `This action returns a #${id} cat`;
-//     }
+    @Get()
+  async findAll(): Promise<Cat[]> {
+    return this.catService.findAll();
+  }
 
-//     @Put(':id')
-//     update(@Param('id') id: string, @Body() updateCatDto: UpdateCatDto) {
-//         return `This action updates a #${id} cat`;
-//     }
+    @Get(':id')
+    findOne(@Param('id') id: string) {
+        return `This action returns a #${id} cat`;
+    }
 
-//     @Delete(':id')
-//     remove(@Param('id') id: string) {
-//         return `This action removes a #${id} cat`;
-//     }
+    @Put(':id')
+    update(@Param('id') id: string, @Body() updateCatDto: CreateCatDto) {
+        return `This action updates a #${id} cat`;
+    }
 
-//     @Post()
-//     create11(@Res() res: Response) {
-//         res.status(HttpStatus.CREATED).send();
-//     }
+    @Delete(':id')
+    remove(@Param('id') id: string) {
+        return `This action removes a #${id} cat`;
+    }
 
-//     @Get()
-//     findAll1212(@Res() res: Response) {
-//         res.status(HttpStatus.OK).json([]);
-//     }
-// }
+    // @Post()
+    // create11(@Res() res: Response) {
+    //     res.status(HttpStatus.CREATED).send();
+    // }
+
+    // @Get()
+    // findAll1212(@Res() res: Response) {
+    //     res.status(HttpStatus.OK).json([]);
+    // }
+}

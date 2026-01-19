@@ -17,7 +17,7 @@ export class TestController {
     }
 
     // Routes with static paths won’t work when you need to accept dynamic data as part of the reques
-    @Get(':id')
+    @Get(':id') // http://localhost:3000/api/test/23213
     findOne(@Param() params: any): string {
         console.log(params.id);
         return `This action returns a #${params.id} cat`;

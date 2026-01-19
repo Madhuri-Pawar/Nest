@@ -54,6 +54,8 @@ No business logic: Keeps code clean, reusable, and testable.
 
 Routing: Done using decorators like @Controller() and @Get() which NestJS reads at runtime.
 
+Classes exist at runtime; interfaces are removed after compilation.
+=========================================
 
 What is a controller in NestJS?
 
@@ -302,12 +304,12 @@ If not number → 400 error
 ===========================================
 
 ✅ When to use Pipes instead of Middleware?
-Use Case	Middleware	Pipe
-Request logging	✅ Yes	                   ❌ No
-Auth token check✅ Yes / Guard better	   ❌ No
-Data validation	❌ No	                   ✅ Yes
-Data transformation	❌ No	               ✅ Yes
-Needs DTO metadata	❌ No	               ✅ Yes
+Use Case	                   Middleware	                  Pipe
+Request logging	             ✅ Yes	                    ❌ No
+Auth token check             ✅ Yes / Guard better	      ❌ No
+Data validation	            ❌ No	                     ✅ Yes
+Data transformation	        ❌ No	                     ✅ Yes
+Needs DTO metadata	        ❌ No	                     ✅ Yes
 
 Key difference:
 
@@ -317,7 +319,7 @@ Pipe → after routing, has method + DTO info
 
 Interview line:
 
-Use pipes for validating and transforming request data, not
+Use pipes for validating and transforming request data
 ================================================================
 
 How to create a custom pipe?

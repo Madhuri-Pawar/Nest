@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -6,13 +6,25 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { DataSource } from 'typeorm';
 import { DatabaseModule } from './database.module';
 import { UsersModule } from './user/user.module';
+import { TestModule } from './test/tets.module';
+import { LoggerMiddleware } from './middlewares/logger.middleware';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     DatabaseModule,
     UsersModule,
+    TestModule
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+   configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(LoggerMiddleware)
+      .forRoutes();
+      // .forRoutes({ path: 'cats', method: RequestMethod.GET });
+      // forRoutes({path: 'abcd/{*splat}',method: RequestMethod.ALL});
+  }
+  
+}
 
