@@ -8,13 +8,15 @@ import { DatabaseModule } from './database.module';
 import { UsersModule } from './user/user.module';
 import { TestModule } from './test/tets.module';
 import { LoggerMiddleware } from './middlewares/logger.middleware';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     DatabaseModule,
-    UsersModule,
-    TestModule
+    // UsersModule,
+    TestModule,
+    AuthModule
   ],
 })
 export class AppModule implements NestModule {

@@ -760,3 +760,4 @@ new ValidationPipe({
 
 - summary
 DTO validation errors are thrown by validation pipes before the controller executes, so they bypass controller try–catch blocks and are handled directly by exception filters, typically at the global level.
+
