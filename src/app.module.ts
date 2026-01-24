@@ -8,7 +8,9 @@ import { DatabaseModule } from './database.module';
 import { UsersModule } from './user/user.module';
 import { TestModule } from './test/tets.module';
 import { LoggerMiddleware } from './middlewares/logger.middleware';
-import { AuthModule } from './auth/auth.module';
+// import { AuthModule } from './auth/auth.module';
+import { AuthorizationModule } from './authorization/authorization.module';
+import { CustomUsersModule } from './custom-users/custom-users.module';
 
 @Module({
   imports: [
@@ -16,8 +18,12 @@ import { AuthModule } from './auth/auth.module';
     DatabaseModule,
     // UsersModule,
     TestModule,
-    AuthModule
+    // AuthModule,
+    AuthorizationModule,
+    CustomUsersModule
   ],
+  controllers:[AppController],
+  providers:[AppService]
 })
 export class AppModule implements NestModule {
    configure(consumer: MiddlewareConsumer) {

@@ -1,0 +1,66 @@
+app:
+  name: my-nest-app
+  env: development
+  port: 3000
+  apiPrefix: /api
+
+logger:
+  level: debug
+  pretty: true
+
+database:
+  type: postgres
+  host: localhost
+  port: 5432
+  username: dev_user
+  password: dev_password
+  name: myapp_dev
+  synchronize: true
+  logging: true
+  pool:
+    min: 2
+    max: 10
+
+redis:
+  host: localhost
+  port: 6379
+  ttl: 60
+
+auth:
+  jwt:
+    accessSecret: dev_access_secret_123
+    refreshSecret: dev_refresh_secret_456
+    accessExpiresIn: 60s
+    refreshExpiresIn: 7d
+
+aws:
+  region: ap-south-1
+  s3:
+    bucket: myapp-dev-bucket
+    publicUrl: https://myapp-dev-bucket.s3.ap-south-1.amazonaws.com
+  sqs:
+    queueUrl: https://sqs.ap-south-1.amazonaws.com/123456789/my-queue-dev
+
+externalApis:
+  payment:
+    baseUrl: https://sandbox.payments.com
+    apiKey: dev-payment-key
+    timeout: 5000
+  compliance:
+    baseUrl: https://sandbox.kyc.com
+    token: dev-kyc-token
+
+features:
+  enableSwagger: true
+  enableMockPayments: true
+
+rateLimit:
+  ttl: 60
+  limit: 100
+
+upload:
+  maxFileSizeMb: 10
+  allowedTypes:
+    - image/png
+    - image/jpeg
+    - application/pdf
