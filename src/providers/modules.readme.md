@@ -161,3 +161,5 @@ Maintainable
 
 # summary
 NestJS follows modular architecture where modules group controllers and providers, controllers handle requests, services contain business logic, and the DI container manages provider lifecycles and dependency resolution.
+
+

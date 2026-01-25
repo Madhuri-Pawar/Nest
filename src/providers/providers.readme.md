@@ -185,6 +185,26 @@ Multiple implementations
 { provide: A, useValue: obj }  // fixed object
 { provide: A, useFactory: () => obj } // dynamic creation
 
+{
+  provide: PaymentService,
+  useClass: StripePaymentService,
+}
+
+{
+  provide: 'CONFIG',
+  useValue: {
+    apiKey: '123',
+    timeout: 5000,
+  },
+}
+
+{
+  provide: DB_CONNECTION,
+  useFactory: (config: ConfigService) => {
+    return createConnection(config.get('DB_URL'));
+  },
+  inject: [ConfigService],
+}
 
 Used for:
 
@@ -296,3 +316,41 @@ Service throws error
 
 Custom provider instance -> token 
 service provider instance- >{ provide: MyService, useClass: MyService }
+
+✅ 1. Nest Builds a Dependency Graph at Bootstrap
+When app starts:
+
+await NestFactory.create(AppModule);
+
+✅ 4. Custom Providers
+useClass
+useValue
+useFactory
+They all become providers in container.
+
+{
+  provide: 'REDIS',
+  useFactory: () => new Redis(),
+}
+
+Token: 'REDIS' → instance // container stores
+@Inject('REDIS') // injeted by
+
+Custom providers are first-class citizens in DI graph.
+
+✅ Are Custom Providers Singleton?
+✔ YES — By Default
+
+Any provider, whether:
+
+@Injectable() service
+
+or custom provider with:
+
+useClass
+
+useValue
+
+useFactory
+
+👉 is singleton by default and created once at app bootstrap.

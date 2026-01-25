@@ -61,7 +61,7 @@ What is a controller in NestJS?
 
 What role does a controller play in request–response lifecycle?
  Answer:
-The controller is the entry point for HTTP requests. It receives the request, extracts required data (params, body, query), calls the service to perform business logic, and then returns the response to the client.
+The controller is the entry point for HTTP requests. It receives the request, extracts required data (params, body, query), validate data,calls the service to perform business logic, and then returns the response to the client.
 
 In short:
 
@@ -114,6 +114,30 @@ Decorators define routes, NestJS router maps request → method.
 🔹 Decorators Used in Controllers
 
 What is @Controller() and how does routing work?
+✅ How Nest Actually Registers Routes (Internals – Senior Level)
+
+Under the hood: At app startup
+
+Nest scans all modules
+
+Finds classes with @Controller()
+
+Reads:
+
+controller path
+
+HTTP method decorators (@Get, @Post)
+
+Builds route map
+
+Registers routes into underlying HTTP adapter:
+
+Express OR Fastify
+
+So NestJS is not handling HTTP directly — it delegates to Express/Fastify.
+
+At runtime, NestJS uses metadata from these decorators to match incoming HTTP requests to the correct method.
+===================================================
 
 Difference between @Get(), @Post(), @Put(), @Patch(), @Delete()?
 
@@ -163,6 +187,9 @@ Both are same, only naming difference.
 ===========================================
 
 Difference between @Res() and standard return values?
+
+@Res & @Response = same it is just alias
+
 ✅ Standard return (Recommended)
 return data;
 
@@ -192,6 +219,20 @@ Redirects
 Interview line:
 
 Avoid @Res() unless low-level response control is needed.
+
+- Used @Response for download files
+
+✅ File download / stream
+@Get('file')
+download(@Res() res: Response) {
+  res.download('report.pdf');
+}
+
+✅ Redirect
+@Get('google')
+redirect(@Res() res: Response) {
+  res.redirect('https://google.com');
+}
 ===================================
 
 
@@ -258,7 +299,13 @@ Pipes are used to:
 
 ✅ Validate data
 
-✅ Transform data
+✅ Transform data - DTO level
+  @ApiPropertyOptional()
+    @IsBoolean()
+    @IsOptional()
+    @Transform((value) => value === 'true')
+    isSupportOpenBanking?: boolean;
+
 
 They run:
 👉 After Guard, before Controller method

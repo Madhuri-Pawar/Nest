@@ -131,3 +131,34 @@ bootstrap();
 
 # summary
 We use custom pipes when validation or transformation logic is reusable, should run before controller execution, and must be independent of business services. Pipes are ideal for type casting, sanitization, and enforcing request-level business constraints like amount limits or date formats.
+
+@UsePipes(new ValidationPipe({tranform:true,whitelist:true}))
+@Controller()
+
+@Get(@Params('id',ParseIntPipe) id:number)
+
+app.useGlobalPipes(new ValidationPipe({tranform:true,whitelist:true}))
+
+Here 
+transform:true
+ - Transform converts incoming plain JSON into class instances and performs implicit type conversion based on DTO types, enabling safer business logic and class-based validation
+
+ whitelist:true
+  - whitelist removes properties that are not part of the DTO, protecting against mass assignment and unexpected data injection. 
+  
+  - client send 
+    {
+    "userId": 1,
+    "role": "admin"   ❌ not in DTO
+    }
+
+  class CreateUserDto {
+    userId: number;
+  }
+
+  With whitelist: true:
+
+👉 role is removed automatically
+
+ It applies validation + data sanitization on request body (or params/query).
+
